@@ -1,6 +1,6 @@
-package seninar1_HomeWork;
+package seninar1.homeWork;
 
-import seninar1_HomeWork.client.ClientWindow;
+import seninar1.homeWork.view.ClientWindow;
 
 public class Main {
     public static void main(String[] args) {

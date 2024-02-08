@@ -1,4 +1,6 @@
-package seninar1_HomeWork.client;
+package seninar1.homeWork.view;
+
+import seninar1.homeWork.model.client.Client;
 
 import javax.swing.*;
 import java.awt.*;
