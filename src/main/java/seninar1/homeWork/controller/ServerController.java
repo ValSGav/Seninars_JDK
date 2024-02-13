@@ -4,20 +4,32 @@ import seninar1.homeWork.model.Commands;
 import seninar1.homeWork.model.Server;
 import seninar1.homeWork.view.ServerWindow;
 
-import javax.swing.*;
 
 public class ServerController {
 
     Server server;
     ServerWindow serverWindow;
 
-    public void deliverTheMessage(Commands command, String s) {
+    public ServerController(String serverWidowName, Server server, int leftPoint) {
+        this.server = server;
+        serverWindow = new ServerWindow(serverWidowName, this, leftPoint);
+        server.setServerController(this);
+    }
+
+    public void deliverTheMessage(Commands command, String text) {
         switch (command) {
-            case SEND_CHANGE_STATUS: {
-                server.changeStatus();
-                break;
-            }
+            case SEND_CHANGE_STATUS -> server.changeStatus();
+            case UPDATE_MESSAGES -> serverWindow.updateMessages(text);
+            case CLOSE_SERVER -> server.saveMessageHistory();
         }
+    }
+
+    public int getLeftPoint(){
+        return this.serverWindow.getX();
+    }
+
+    public void run(){
+        this.serverWindow.setVisible(true);
     }
 }
 

@@ -6,9 +6,7 @@ import seninar1.homeWork.model.ConnectException;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 
 public class ClientWindow extends JFrame {
 
@@ -16,83 +14,120 @@ public class ClientWindow extends JFrame {
     public static final int WINDOW_HEIGHT = 300;
 
 
-    ClientController clientController;
-    JTextArea messages;
-    JTextField ip, port, login, message;
-    JPasswordField password;
-    JButton btnConnect, btnSend;
-    JPanel connectPanel;
+    private final ClientController clientController;
+    private final JTextArea messages;
+    private JTextField login;
+    private JTextField message;
+    private JPanel northPanel;
+    private JComponent southPanel;
 
-    public ClientWindow(String title, ClientController clientController) throws HeadlessException {
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+    public ClientWindow(String title, ClientController clientController, int leftPoint) throws HeadlessException {
+
+        this.clientController = clientController;
+
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+        setLocation(leftPoint, getY());
         setTitle(title);
         setResizable(false);
 
-        ip = new JTextField();
-        port = new JTextField();
-        login = new JTextField();
-        password = new JPasswordField();
-        message = new JTextField();
+        prepareNorthPanel();
+        prepareSouthPanel();
 
-        btnConnect = new JButton();
-        btnConnect.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    clientController.deliverTheMessage(Commands.SEND_CONNECT_TO_SERVER, login.getText());
-                } catch (ConnectException cE) {
-                    messages.append(cE.getMessage());
-                }
-            }
-        });
-
-        connectPanel = new JPanel(new GridLayout(2, 3));
-        connectPanel.add(ip);
-        connectPanel.add(port);
-        connectPanel.add(new JLabel());
-        connectPanel.add(login);
-        connectPanel.add(password);
-        connectPanel.add(btnConnect);
-
-        add(connectPanel, BorderLayout.NORTH);
+        add(northPanel, BorderLayout.NORTH);
 
         messages = new JTextArea();
         messages.setEditable(false);
-        add(messages);
+        messages.setAutoscrolls(true);
+        JScrollPane sp = new JScrollPane(messages);
+        add(sp, BorderLayout.CENTER);
 
-        JComponent bottomPanel = new JPanel(new GridLayout(1, 2));
-        btnSend = new JButton();
-        btnSend.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    clientController.deliverTheMessage(Commands.SEND_TEXT_TO_SERVER, message.getText());
-                } catch (ConnectException cE) {
-                    messages.append(cE.getMessage());
-                }
-            }
-        });
-        bottomPanel.add(message);
-        bottomPanel.add(btnSend);
-        add(bottomPanel, BorderLayout.SOUTH);
+        add(southPanel, BorderLayout.SOUTH);
 
-        bottomPanel.setVisible(false);
+        southPanel.setVisible(false);
+        northPanel.setVisible(true);
 
-        setVisible(true);
     }
-
 
     @Override
     protected void processWindowEvent(WindowEvent e) {
         if (e.getID() == WindowEvent.WINDOW_CLOSING) {
-            //disconnectFromServer();
+            clientController.deliverTheMessage(Commands.SEND_DISCONNECT_TO_SERVER, "");
         }
         super.processWindowEvent(e);
     }
 
-    public void appendMessage(String text) {
-        this.messages.append(text);
+    private void prepareSouthPanel() {
+
+        southPanel = new JPanel(new GridLayout(1, 2));
+
+        JButton btnSend = new JButton();
+        btnSend.setText("Send");
+        btnSend.addActionListener(e -> {
+            try {
+                clientController.deliverTheMessage(Commands.SEND_TEXT_TO_SERVER, message.getText());
+            } catch (ConnectException cE) {
+                messages.append("\n" + cE.getMessage());
+            }
+        });
+
+        class KeyTypedListener extends KeyAdapter{
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+
+                    try {
+                        clientController.deliverTheMessage(Commands.SEND_TEXT_TO_SERVER, message.getText());
+                    } catch (ConnectException cE) {
+                        messages.append("\n" + cE.getMessage());
+                    }
+                }
+            }
+        }
+        message.addKeyListener(new KeyTypedListener());
+
+
+
+        southPanel.add(message);
+        southPanel.add(btnSend);
     }
 
+    private void prepareNorthPanel() {
+
+        JTextField ip = new JTextField();
+        JTextField port = new JTextField();
+        login = new JTextField();
+        JPasswordField password = new JPasswordField();
+        message = new JTextField();
+
+        northPanel = new JPanel(new GridLayout(2, 3));
+
+        JButton btnConnect = new JButton();
+        btnConnect.setText("Send");
+        btnConnect.addActionListener(e -> {
+            try {
+                clientController.deliverTheMessage(Commands.SEND_CONNECT_TO_SERVER, login.getText());
+                southPanel.setVisible(true);
+                northPanel.setVisible(false);
+            } catch (ConnectException cE) {
+                messages.append("\n" + cE.getMessage());
+            }
+        });
+
+        northPanel.add(ip);
+        northPanel.add(port);
+        northPanel.add(new JLabel());
+        northPanel.add(login);
+        northPanel.add(password);
+        northPanel.add(btnConnect);
+
+    }
+
+    public void appendMessage(String text) {
+        this.messages.append("\n" + text);
+    }
+
+    public void setStateDisconnectFromServer() {
+        southPanel.setVisible(false);
+        northPanel.setVisible(true);
+    }
 }

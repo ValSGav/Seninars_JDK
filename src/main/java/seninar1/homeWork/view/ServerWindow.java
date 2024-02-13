@@ -8,12 +8,24 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 
 public class ServerWindow extends JFrame {
     public static final int WINDOW_WIDTH = 200;
     public static final int WINDOW_HEIGHT = 200;
+    private final ServerController serverController;
+    private final JTextArea messages;
+    private final JButton btnEnable;
 
-    public ServerWindow(String title, ServerController serverController) throws HeadlessException {
+    @Override
+    protected void processWindowEvent(WindowEvent e) {
+        if (e.getID() == WindowEvent.WINDOW_CLOSING) {
+            serverController.deliverTheMessage(Commands.CLOSE_SERVER, "");
+        }
+        super.processWindowEvent(e);
+    }
+
+    public ServerWindow(String title, ServerController serverController, int leftPoint) throws HeadlessException {
         super(title);
         this.serverController = serverController;
 
@@ -23,31 +35,38 @@ public class ServerWindow extends JFrame {
         setResizable(false);
 
         btnEnable = new JButton();
+        btnEnable.setText("Disable");
 
         btnEnable.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
                     serverController.deliverTheMessage(Commands.SEND_CHANGE_STATUS, "");
+                    if(btnEnable.getText().equals("Disable"))
+                        btnEnable.setText("Enable");
+                    else btnEnable.setText("Disable");
                 } catch (ConnectException cE) {
                     messages.append(cE.getMessage());
                 }
             }
         });
 
-        add(messages, BorderLayout.CENTER);
-        add(btnEnable, BorderLayout.SOUTH);
+        messages = new JTextArea();
+        messages.setEditable(false);
+        messages.setAutoscrolls(true);
+        JScrollPane sp = new JScrollPane(messages);
+        add(sp, BorderLayout.CENTER);
 
+        JComponent bottomPanel = new JPanel(new GridLayout(1, 2));
+        bottomPanel.add(btnEnable);
+        add(bottomPanel, BorderLayout.SOUTH);
+
+        setLocation(leftPoint, getY());
 
     }
 
-    ServerController serverController;
 
-    JTextArea messages;
-    JButton btnEnable;
-
-    public void setMessages(String text) {
+    public void updateMessages(String text) {
         this.messages.setText(text);
     }
-
 }

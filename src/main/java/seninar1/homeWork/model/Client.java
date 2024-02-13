@@ -4,25 +4,18 @@ import seninar1.homeWork.controller.ClientController;
 
 public class Client {
     private boolean isConnected;
-    private Server server;
+    private final Server server;
 
     public Client(Server server, ClientController clientController) {
         this.server = server;
         this.clientController = clientController;
     }
 
-    private ClientController clientController;
+    private final ClientController clientController;
     private String name;
 
     public String getName() {
         return this.name;
-    }
-
-    private void sendMessage(String text) throws ConnectException {
-        if (isConnected && server.isEnable()) {
-            server.sendMessage(text, this);
-        } else throw new ConnectException("Сервер не доступен!");
-
     }
 
     public void acceptMessage(String text) {
@@ -48,5 +41,9 @@ public class Client {
     public void disconnectFromServer() {
         isConnected = false;
         clientController.deliverTheMessage(Commands.ACCEPT_DISCONNECT_FROM_SERVER, "");
+    }
+
+    public void sendServerCommandDisconnect() {
+        server.disconnectClient(this);
     }
 }
