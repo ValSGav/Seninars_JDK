@@ -67,6 +67,7 @@ public class ClientWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    clientController.deliverTheMessage(Commands.SEND_TEXT_TO_SERVER, message.getText());
                 } catch (ConnectException cE) {
                     messages.append(cE.getMessage());
                 }

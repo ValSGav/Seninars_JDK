@@ -26,6 +26,10 @@ public class ClientController {
                 this.clientWindow.appendMessage(text);
                 break;
             }
+            case SEND_TEXT_TO_SERVER:{
+                this.client.sendMessageToServer(text);
+                break;
+            }
         }
     }
 

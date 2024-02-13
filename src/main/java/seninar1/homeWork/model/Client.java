@@ -32,12 +32,21 @@ public class Client {
     public void connectToServer(String name) throws ConnectException {
         //загрузить историю сообщений
 
-
         if (!server.isEnable()) throw new ConnectException("Сервер не доступен!");
         this.name = name;
 
         server.connect(this);
         //установить признак соединения
+        isConnected = true;
+        clientController.deliverTheMessage(Commands.ACCEPT_CONNECT_FROM_SERVER, "");
     }
 
+    public void sendMessageToServer(String text) {
+        server.sendMessage(text, this);
+    }
+
+    public void disconnectFromServer() {
+        isConnected = false;
+        clientController.deliverTheMessage(Commands.ACCEPT_DISCONNECT_FROM_SERVER, "");
+    }
 }
