@@ -4,7 +4,6 @@ import seminar1.homeWork.controller.ClientController;
 import seminar1.homeWork.model.exception.ConnectException;
 
 public class Client {
-    private boolean isConnected;
     private final Server server;
 
     public Client(Server server, ClientController clientController) {
@@ -31,7 +30,6 @@ public class Client {
 
         server.connect(this);
         //установить признак соединения
-        isConnected = true;
         clientController.deliverTheMessage(Commands.ACCEPT_CONNECT_FROM_SERVER, "");
     }
 
@@ -40,7 +38,6 @@ public class Client {
     }
 
     public void disconnectFromServer() {
-        isConnected = false;
         clientController.deliverTheMessage(Commands.ACCEPT_DISCONNECT_FROM_SERVER, "");
     }
 

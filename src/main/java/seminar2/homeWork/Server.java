@@ -2,8 +2,6 @@ package seminar2.homeWork;
 
 import seminar2.homeWork.impl.FileRepository;
 
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Server {
@@ -11,7 +9,6 @@ public class Server {
     private final ArrayList<Client> connectedClients;
     private String messageHistory;
     private boolean enable;
-    private final String fileName;
 
     private final Repository repository;
 
@@ -22,7 +19,7 @@ public class Server {
     public Server() {
         this.connectedClients = new ArrayList<>();
         this.messageHistory = "";
-        this.fileName = "src/main/java/seminar2/homeWork/messages.txt";
+        String fileName = "src/main/java/seminar2/homeWork/messages.txt";
         this.repository = new FileRepository(fileName);
         this.messageHistory = repository.getMessageHistory();
 

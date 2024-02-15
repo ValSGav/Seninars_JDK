@@ -7,8 +7,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class FileRepository implements Repository {
 
@@ -18,7 +16,7 @@ public class FileRepository implements Repository {
         this.fileName = fileName;
         File file = new File(fileName);
         if (!file.exists()) {
-            try (FileWriter fv = new FileWriter(fileName);){
+            try (FileWriter fv = new FileWriter(fileName)){
                  fv.write("");
             } catch (IOException e) {
                 throw new ChatException(e.getMessage());
