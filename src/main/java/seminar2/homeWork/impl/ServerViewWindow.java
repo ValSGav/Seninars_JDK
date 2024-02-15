@@ -1,8 +1,5 @@
 package seminar2.homeWork.impl;
-
-import seminar1.homeWork.controller.ServerController;
-import seminar1.homeWork.model.Commands;
-import seminar1.homeWork.model.exception.ConnectException;
+import seminar2.homeWork.ChatException;
 import seminar2.homeWork.Server;
 import seminar2.homeWork.ServerView;
 
@@ -49,7 +46,7 @@ public class ServerViewWindow extends JFrame implements ServerView  {
                     if(btnEnable.getText().equals("Disable"))
                         btnEnable.setText("Enable");
                     else btnEnable.setText("Disable");
-                } catch (ConnectException cE) {
+                } catch (ChatException cE) {
                     messages.append(cE.getMessage());
                 }
             }

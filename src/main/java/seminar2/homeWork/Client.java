@@ -2,7 +2,6 @@ package seminar2.homeWork;
 
 public class Client {
 
-    private boolean isConnected;
     private final Server server;
 
     private String name;
@@ -29,7 +28,6 @@ public class Client {
 
         server.connectClient(this);
         //установить признак соединения
-        isConnected = true;
         view.connectToServer();
     }
 
@@ -38,7 +36,6 @@ public class Client {
     }
 
     public void disconnectFromServer() {
-        isConnected = false;
         view.disconnectFromServer();
     }
 
