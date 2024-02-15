@@ -1,13 +1,12 @@
-package seninar1.homeWork.model;
+package seminar1.homeWork.model;
 
-import seninar1.homeWork.controller.ServerController;
+import seminar1.homeWork.controller.ServerController;
+import seminar1.homeWork.model.exception.ConnectException;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import static seninar1.homeWork.model.Commands.UPDATE_MESSAGES;
 
 public class Server {
 
@@ -20,7 +19,7 @@ public class Server {
 
     public void setServerController(ServerController serverController) {
         this.serverController = serverController;
-        serverController.deliverTheMessage(UPDATE_MESSAGES, this.messageHistory);
+        serverController.deliverTheMessage(Commands.UPDATE_MESSAGES, this.messageHistory);
     }
 
     public Server() throws ConnectException {
@@ -59,7 +58,7 @@ public class Server {
 
         //показать в своем окошке
         if (serverController != null) {
-            serverController.deliverTheMessage(UPDATE_MESSAGES, this.messageHistory);
+            serverController.deliverTheMessage(Commands.UPDATE_MESSAGES, this.messageHistory);
         }
 
 
@@ -91,7 +90,7 @@ public class Server {
 
     }
 
-    public void saveMessageHistory() throws ConnectException{
+    public void saveMessageHistory() {
         try (FileWriter fw = new FileWriter(fileName)) {
             fw.write(this.messageHistory);
         } catch (IOException e) {
@@ -100,7 +99,7 @@ public class Server {
 
     }
 
-    public void disconnectClient(Client client) throws ConnectException{
+    public void disconnectClient(Client client) {
         if (connectedClients.contains(client))
             connectedClients.remove(client);
         else throw new ConnectException("Попытка отключиться от сервера неудачна! Клиент уже отключен от сервера.");

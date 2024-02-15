@@ -1,8 +1,10 @@
-package seninar1.homeWork.view;
+package seminar2.homeWork.impl;
 
-import seninar1.homeWork.controller.ServerController;
-import seninar1.homeWork.model.Commands;
-import seninar1.homeWork.model.ConnectException;
+import seminar1.homeWork.controller.ServerController;
+import seminar1.homeWork.model.Commands;
+import seminar1.homeWork.model.exception.ConnectException;
+import seminar2.homeWork.Server;
+import seminar2.homeWork.ServerView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,24 +12,26 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 
-public class ServerWindow extends JFrame {
+public class ServerViewWindow extends JFrame implements ServerView  {
+
     public static final int WINDOW_WIDTH = 200;
     public static final int WINDOW_HEIGHT = 200;
-    private final ServerController serverController;
+    private final Server server;
     private final JTextArea messages;
     private final JButton btnEnable;
 
     @Override
     protected void processWindowEvent(WindowEvent e) {
         if (e.getID() == WindowEvent.WINDOW_CLOSING) {
-            serverController.deliverTheMessage(Commands.CLOSE_SERVER, "");
+            server.closeServer();
         }
         super.processWindowEvent(e);
     }
 
-    public ServerWindow(String title, ServerController serverController, int leftPoint) throws HeadlessException {
+    public ServerViewWindow(String title, Server server, int leftPoint) throws HeadlessException {
         super(title);
-        this.serverController = serverController;
+        this.server = server;
+        server.setView(this);
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -41,7 +45,7 @@ public class ServerWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    serverController.deliverTheMessage(Commands.SEND_CHANGE_STATUS, "");
+                    server.changeStatus();
                     if(btnEnable.getText().equals("Disable"))
                         btnEnable.setText("Enable");
                     else btnEnable.setText("Disable");
@@ -65,8 +69,23 @@ public class ServerWindow extends JFrame {
 
     }
 
+    @Override
+    public void showMessage(String message) {
+        this.messages.append(message);
+    }
 
-    public void updateMessages(String text) {
-        this.messages.setText(text);
+    @Override
+    public void setStatus(boolean enable) {
+        if(enable)
+            btnEnable.setText("Disable");
+        else btnEnable.setText("Enable");
+    }
+
+    public int getLeftPoint() {
+        return this.getX();
+    }
+
+    public void run(){
+        this.setVisible(true);
     }
 }

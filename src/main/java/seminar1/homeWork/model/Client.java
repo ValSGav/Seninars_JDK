@@ -1,6 +1,7 @@
-package seninar1.homeWork.model;
+package seminar1.homeWork.model;
 
-import seninar1.homeWork.controller.ClientController;
+import seminar1.homeWork.controller.ClientController;
+import seminar1.homeWork.model.exception.ConnectException;
 
 public class Client {
     private boolean isConnected;

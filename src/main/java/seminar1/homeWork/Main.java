@@ -1,10 +1,10 @@
-package seninar1.homeWork;
+package seminar1.homeWork;
 
-import seninar1.homeWork.controller.ClientController;
-import seninar1.homeWork.controller.ServerController;
-import seninar1.homeWork.model.Server;
-import seninar1.homeWork.view.ClientWindow;
-import seninar1.homeWork.view.ServerWindow;
+import seminar1.homeWork.view.ClientWindow;
+import seminar1.homeWork.view.ServerWindow;
+import seminar1.homeWork.controller.ClientController;
+import seminar1.homeWork.controller.ServerController;
+import seminar1.homeWork.model.Server;
 
 public class Main {
     public static void main(String[] args) {

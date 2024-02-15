@@ -1,8 +1,8 @@
-package seninar1.homeWork.view;
+package seminar1.homeWork.view;
 
-import seninar1.homeWork.controller.ClientController;
-import seninar1.homeWork.model.Commands;
-import seninar1.homeWork.model.ConnectException;
+import seminar1.homeWork.model.exception.ConnectException;
+import seminar1.homeWork.controller.ClientController;
+import seminar1.homeWork.model.Commands;
 
 import javax.swing.*;
 import java.awt.*;

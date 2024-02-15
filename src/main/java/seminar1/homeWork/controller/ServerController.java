@@ -1,8 +1,8 @@
-package seninar1.homeWork.controller;
+package seminar1.homeWork.controller;
 
-import seninar1.homeWork.model.Commands;
-import seninar1.homeWork.model.Server;
-import seninar1.homeWork.view.ServerWindow;
+import seminar1.homeWork.model.Commands;
+import seminar1.homeWork.model.Server;
+import seminar1.homeWork.view.ServerWindow;
 
 
 public class ServerController {

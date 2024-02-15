@@ -1,4 +1,4 @@
-package seninar1.homeWork.model;
+package seminar1.homeWork.model;
 
 public enum Commands {
     SEND_TEXT_TO_SERVER,
