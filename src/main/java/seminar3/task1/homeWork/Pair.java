@@ -1,7 +1,7 @@
 package seminar3.task1.homeWork;
 
 
-public class Pair<M extends Object, N extends Object> {
+public class Pair<M, N> {
     private final M firstValue;
     private final N secondValue;
 

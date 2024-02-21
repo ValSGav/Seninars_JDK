@@ -1,9 +1,11 @@
 package seminar3.task1.homeWork;
+
+
 public class Main {
     public static void main(String[] args) {
         Calculator calc = new Calculator();
 
-        try{
+        try {
             System.out.println(calc.divide(4, 5.0));
             System.out.println(calc.divide(4.0f, 5.0d));
 
@@ -19,7 +21,7 @@ public class Main {
             System.out.println(calc.divide("su", 0));
             System.out.println(calc.divide(4.0f, 0));
 
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Возникала проблема" + e);
         }
 
@@ -41,9 +43,9 @@ public class Main {
         System.out.println(aC.compareArrays(arr4, arr5));
 
 
-        var pair1 = new Pair(new Calculator(), 3);
-        var pair2 = new Pair(new Calculator(), "musha");
-        var pair3 = new Pair(new String[]{"12", "goda"}, "musha");
+        Pair<Calculator, Integer> pair1 = new Pair<>(new Calculator(), 3);
+        Pair<Calculator, String> pair2 = new Pair<>(new Calculator(), "musha");
+        Pair<String[], String> pair3 = new Pair<>(new String[]{"12", "goda"}, "musha");
 
         System.out.println(pair1);
         System.out.println(pair2);
