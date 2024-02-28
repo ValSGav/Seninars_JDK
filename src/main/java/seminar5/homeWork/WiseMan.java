@@ -32,22 +32,22 @@ public class WiseMan extends Thread {
             if (!isInStateOfReflection) {
                 sleep(1000);
                 isInStateOfReflection = true;
-                talker.talk(String.format("Мудрец %s говорит: Ура! Я поел!", this.name));
-                //System.out.println(String.format("Мудрец %s говорит: Ура! Я поел!", this.name));
+                //talker.talk(String.format("Мудрец %s говорит: Ура! Я поел!", this.name));
+                System.out.println(String.format("Мудрец %s говорит: Ура! Я поел!", this.name));
                 changeForkStatus(false);
                 successfulMeals ++;
             } else {
                 if (changeForkStatus(true)) {
-                    talker.talk(String.format("Мудрец %s говорит: Беру вилки \t%s \t и %s>", this.name, this.leftFork, this.rightFork));
-                    //System.out.println(String.format("Мудрец %s говорит: Беру вилки \t%s \t и %s>", this.name, this.leftFork, this.rightFork));
+                    //talker.talk(String.format("Мудрец %s говорит: Беру вилки \t%s \t и %s>", this.name, this.leftFork, this.rightFork));
+                    System.out.println(String.format("Мудрец %s говорит: Беру вилки \t%s \t и %s>", this.name, this.leftFork, this.rightFork));
                     sleep(1000);
                     isInStateOfReflection = false;
 
                 }
             }
         }
-        talker.talk(String.format("Мудрец %s говорит: Ну все! Я наелся! И, заодно, придмал как колдовать... давайте кого-нибудь испепелим!", this.name));
-       // System.out.println(String.format("Мудрец %s говорит: Ну все! Я наелся! И, заодно, придмал как колдовать... давайте кого-нибудь испепелим!", this.name));
+        //talker.talk(String.format("Мудрец %s говорит: Ну все! Я наелся! И, заодно, придмал как колдовать... давайте кого-нибудь испепелим!", this.name));
+        System.out.println(String.format("Мудрец %s говорит: Ну все! Я наелся! И, заодно, придмал как колдовать... давайте кого-нибудь испепелим!", this.name));
         interrupt();
     }
 
